@@ -1,0 +1,6 @@
+# absolute path + (trailing / slashes are required for *directory* options)
+appliedir: tests/                  # directory to save job postings you've applied to
+coverpath: templates/template.odt  # path to your cover letter template
+resumepath: templates/resume.odt   # path to your resume
+destination: tests/                # path to your desired output location of the finished pdf
+outputfilename: your-name.pdf      # desired filename of the finished pdf

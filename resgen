@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# gem dependencies
+require 'odf-report'
+require 'io/console'
+require 'combine_pdf'
+require 'yaml'
+# mvc classes
+require './classes/model.rb'
+require './classes/view.rb'
+require './classes/controller.rb'
+
+@controller = ResgenController.new
+@controller.run
