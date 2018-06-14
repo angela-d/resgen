@@ -12,7 +12,7 @@ How it works:
 - Based on the information you give Resgen, a customized cover letter with the employer name and current date will be generated and merged with your regular resume, straight from .odt templates; no needing to have to create the PDFs by hand any time you want to update it - Resgen does it for you
 - Resgen also scrapes the job posting and saves a textual copy (and dates the  file), so you have a point of reference when you're called in for an interview
 
-Note: This was built &amp; tested in a Linux desktop environment; it should also work for Mac or Windows, so as long as you have a Ruby environment with Shell command capability.
+Note: This was built &amp; tested in a Linux desktop environment; it should also work for Mac or Windows, so as long as you have a Ruby environment with Dash Shell command capability.
 
 ## Install
 ```bash
@@ -32,9 +32,6 @@ gem install odf-report
 gem install combine_pdf
 ```
 
-## Things to consider
-If you have your templates open while Resgen is running, the script will error out due to Libre Office 'locking' the file; so make sure you save and close your templates when you're ready to automate.
-
 ## Customizing
 The configuration for the application can be found at [config.yml](config.yml); modify the paths according to your environment.
 
@@ -45,3 +42,6 @@ Post an issue on the [bug tracker](https://notabug.org/angela/resgen/issues)
 
 ## License
 GPLv2 only
+
+## Find this useful?
+Please [leave feedback](https://notabug.org/angela/resgen/issues) or star the repo on Github
