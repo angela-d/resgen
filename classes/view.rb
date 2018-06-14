@@ -21,11 +21,14 @@ class ResgenView
     puts "\e[31m\e[1m >> Hey, you may have applied here already!\nWant to continue?\n\tn to cancel; any other key to proceed.\e[0m"
   end
 
-  def job_scrape
+  def job_scrape url
     puts " >> Obtaining a copy of the job posting for you.."
+    if url.include? "linkup"
+      puts "\e[33m >> Due to the JS redirect embedded in this listing, you might want to manually scrape the job posting to save a copy.\e[0m"
+    end
   end
 
   def completion
-    puts green("\t\e[1mYour cover letter has been processed!")
+    puts green("\t\e[1mYour resume has been processed!")
   end
 end
