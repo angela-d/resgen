@@ -9,6 +9,9 @@ class ResgenController
 
   def run
 
+    # close out any libreoffice processes
+    @model.runproc('soffice.bin')
+
     resgen = ODFReport::Report.new(@config['coverpath']) do |merge|
 
       # prompt the user with definitions from the view
@@ -30,7 +33,7 @@ class ResgenController
       url = gets.chomp
 
       # send wget to grab it, since the text is all that's really useful (and to save space)
-      @view.job_scrape
+      @view.job_scrape(url)
       @model.wget(url, employer_dir + wget_fn + @time.strftime("-%-m-%-d") +'.html')
 
       # pass it to the writer doc
