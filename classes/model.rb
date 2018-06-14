@@ -15,6 +15,31 @@ class ResgenModel
   end
 
 
+  def runproc proc
+    pid        = %x(pidof "#{proc}").to_i
+    checkagain = false
+
+    if pid > 0
+      puts "LibreOffice is still running.  Please save your work & close it; press any key to continue."
+      checkagain = true
+    end
+
+    if checkagain == true and $stdin.getch != nil
+      # one more check for libreoffice..
+      final = %x(pidof "#{proc}").to_i
+
+      begin
+        # user is being a turd & disobeyed advice; forcefully terminate libreoffice
+        # an active libreoffice session prevents the pdfs from being generated
+        if final > 0
+          Process.kill('QUIT', final)
+        end
+      rescue Errno::ESRCH
+      end
+    end
+  end
+
+
   def makepdf filename
     # invoke the sh shell to execute the built-in libreoffice odt -> pdf merge
     %x(sh ./pdfgen.sh #{filename})
