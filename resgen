@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
-# gem dependencies
+# gems & dependencies
+require 'yaml'
 require 'odf-report'
 require 'io/console'
 require 'combine_pdf'
-require 'yaml'
+require 'selenium-webdriver'
 # mvc classes
 require './classes/model.rb'
 require './classes/view.rb'
