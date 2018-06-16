@@ -12,9 +12,15 @@ How it works:
 - Based on the information you give Resgen, a customized cover letter with the employer name and current date will be generated and merged with your regular resume, straight from .odt templates; no needing to have to create the PDFs by hand any time you want to update it - Resgen does it for you
 - Resgen also scrapes the job posting and saves a textual copy (and dates the  file), so you have a point of reference when you're called in for an interview
 
-Note: This was built &amp; tested in a Linux desktop environment; it should also work for Mac or Windows, so as long as you have a Ruby environment with Dash Shell command capability.
 
-## Install
+## Compatible Operating Systems (64-bit)
+- Linux-based operating systems
+- Windows 10 [Install instructions](https://notabug.org/angela/resgen/wiki/Windows-Install)
+- MacOS Sierra or higher [Install instructions](https://notabug.org/angela/resgen/wiki/Mac-Install)
+
+*(It would work on 32-bit too, I just didn't include the needed drivers to support it, if you are using 32-bit, [let me know](https://notabug.org/angela/resgen/issues) and support will be added.  If you're unsure whether or not your OS is 64/32-bit, it is probably 64-bit.)*
+## Quick install
+If you need OS-specific instructions, see the compatible operating systems above for links to detailed steps.
 ```bash
 git clone https://notabug.org/angela/resgen.git && cd resgen
 ```
@@ -23,14 +29,22 @@ git clone https://notabug.org/angela/resgen.git && cd resgen
 
 - Ruby >= 2.4.x
 - Ruby gems
-- Libre Office
+- Libre Office 3.5+
+- Firefox 56+ (Waterfox &amp; Firefox ESR are currently *not* compatible)
 
 You can run `bundle install` in Resgen's directory to automatically install the needed gems.  If you wish to do it manually:
 
 ```ruby
 gem install odf-report
 gem install combine_pdf
+gem install selenium-webdriver
+gem install os
 ```
+
+***
+### [Why is Firefox 56+ required?](https://notabug.org/angela/resgen/wiki/Why-Firefox)
+
+***
 
 ## Customizing
 The configuration for the application can be found at [config.yml](config.yml); modify the paths according to your environment.
@@ -44,4 +58,4 @@ Post an issue on the [bug tracker](https://notabug.org/angela/resgen/issues)
 GPLv2 only
 
 ## Find this useful?
-Please [leave feedback](https://notabug.org/angela/resgen/issues) or star the repo on Github
+Please [leave feedback](https://notabug.org/angela/resgen/issues) or star the repo on Github / Notabug.org
