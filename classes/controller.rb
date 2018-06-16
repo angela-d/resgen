@@ -9,8 +9,17 @@ class ResgenController
 
   def run
 
+    if @config['driver'] == nil
+      # first run, so get all the config values we'll need, set
+      @model.firstrun
+      @view.welcome
+
+      # user has been notified to restart
+      exit
+    end
+
     # close out any libreoffice processes
-    @model.runproc('soffice.bin')
+    @model.runproc('soffice')
 
     resgen = ODFReport::Report.new(@config['coverpath']) do |merge|
 
@@ -22,21 +31,21 @@ class ResgenController
       company = gets.chomp
 
       # initialize the company directory name
-      wget_dir     = company.gsub(/\s/,'-')
-      wget_fn      = position.gsub(/\s/,'-')
-      employer_dir = @config['appliedir'] + wget_dir + '/'
+      scrape_dir   = @model.sanitize company
+      scrape_fn    = @model.sanitize position
+      employer_dir = @config['appliedir'] + scrape_dir + '/'
 
       # make sure this is a new application
-      checkdir employer_dir
+      @model.checkdir employer_dir
 
       @view.prompt_url
       url = gets.chomp
 
       # send wget to grab it, since the text is all that's really useful (and to save space)
       @view.job_scrape(url)
-      @model.wget(url, employer_dir + wget_fn + @time.strftime("-%-m-%-d") +'.html')
+      @model.scrape(url, employer_dir + scrape_fn + @time.strftime("-%-m-%-d-%y") +'.html')
 
-      # pass it to the writer doc
+      # pass it to the writer doc - if you want to further customize your cover sheet, follow suit with the variables below
       merge.add_field :date, @time.strftime("%A, %B %-m, %Y")
       merge.add_field :position, "#{position}"
       merge.add_field :company, "#{company}"
@@ -66,20 +75,9 @@ class ResgenController
       @model.del(respath + ".pdf")
   end
 
-
-  def checkdir dir
-
-    if Dir.exist?(dir)
-      @view.dir_exists
-
-      if $stdin.getch == 'n'
-        exit
-      end
-      # if n is not keyed, move on with the process
-
-    else
-        # create the directory
-        Dir.mkdir dir
-    end
-  end
+  # catch a user keying cntrl + c to gracefully close
+  Signal.trap("INT") {
+    puts "\nExit request received.  Closing Resgen; have a nice day!"
+    exit
+  }
 end
