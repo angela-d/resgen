@@ -4,3 +4,5 @@ source "https://rubygems.org"
 
 gem "odf-report"
 gem "combine_pdf"
+gem "selenium-webdriver"
+gem "os"
