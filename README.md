@@ -51,8 +51,10 @@ The configuration for the application can be found at [config.yml](config.yml); 
 
 The [template.odt](templates/template.odt) file has examples of the variables you'll need to add to your own cover letter in order for Resgen to automate for you.  If you wish to add more fields, do so by modifying the `resgen` loop in [controller.rb](classes/controller.rb) and featuring the subsequent `[NEW_VARS]` in your cover letter template.
 
+For detailed instructions on adding additional fields, see the [Custom Fields](https://notabug.org/angela/resgen/wiki/Custom-Fields) wiki
+
 ## Bugs or Issues
-Post an issue on the [bug tracker](https://notabug.org/angela/resgen/issues)
+Check the [Install Help](https://notabug.org/angela/resgen/wiki/install-help) wiki or post an issue on the [bug tracker](https://notabug.org/angela/resgen/issues)
 
 ## License
 GPLv2 only
