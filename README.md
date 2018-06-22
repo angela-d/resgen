@@ -1,5 +1,7 @@
 # Resgen: Resume Generator Automation
-A Ruby-based application to automate the lengthy steps for writing and dating cover letters.  Generate PDFs from Libre Office .odt templates on the fly *and* save a copy of the job posting, all without ever having to leave your terminal!
+A Ruby-based application to automate the lengthy steps for writing and dating cover letters and keep track of companies and jobs you've applied to.
+
+Generate PDFs from Libre Office .odt templates on the fly *and* save a copy of the job posting, all without ever having to leave your terminal!
 
 The only thing Resgen doesn't do for you is actually send the resume (but with some minor tweaks, it could do that, too!)
 
@@ -11,7 +13,7 @@ How it works:
 - Resgen will prompt you for information about your job prospect &amp; even alert you if you've applied there before
 - Based on the information you give Resgen, a customized cover letter with the employer name and current date will be generated and merged with your regular resume, straight from .odt templates; no needing to have to create the PDFs by hand any time you want to update it - Resgen does it for you
 - Resgen also scrapes the job posting and saves a textual copy (and dates the  file), so you have a point of reference when you're called in for an interview
-
+- Generate [Reports](https://notabug.org/angela/resgen/wiki/Reports) for weekly, monthly or yearly job applying activity
 
 ## Compatible Operating Systems (64-bit)
 - Linux-based operating systems
