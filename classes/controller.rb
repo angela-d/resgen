@@ -4,17 +4,33 @@ class ResgenController
     @model  = ResgenModel.new
     @view   = ResgenView.new
     @time   = Time.new
-    @config = @model.create
+    @config = @model.config
   end
 
   def run
 
     if @config['driver'] == nil
-      # first run, so get all the config values we'll need, set
+      # first run, so get all the config values we'll need set
       @model.firstrun
       @view.welcome
 
       # user has been notified to restart
+      exit
+    end
+
+    # make sure everything is pathed appropriately
+    @model.test
+
+    # if arguments are passed, the user might be requesting reports
+    if !ARGV.empty? && ARGV[0] == 'week' || ARGV[0] == 'month' || ARGV[0] == 'year'
+
+      report = ResgenReports.new
+      report.report ARGV[0]
+      exit
+
+    elsif !ARGV.empty?
+
+      @view.arg_error
       exit
     end
 
@@ -46,9 +62,14 @@ class ResgenController
       @model.scrape(url, employer_dir + scrape_fn + @time.strftime("-%-m-%-d-%y") +'.html')
 
       # pass it to the writer doc - if you want to further customize your cover sheet, follow suit with the variables below
-      merge.add_field :date, @time.strftime("%A, %B %-m, %Y")
+      merge.add_field :date, @time.strftime("%A, %B %-d, %Y")
       merge.add_field :position, "#{position}"
       merge.add_field :company, "#{company}"
+
+      # append new data to the existing spreadsheet
+      CSV.open(@config['appliedir'] + 'applied.csv', 'a') do |csv|
+        csv << [Time.now,"#{company}", "#{position}","#{url}"]
+      end
     end
 
       # complete the libre office file creation
