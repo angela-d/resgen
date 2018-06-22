@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # gems & dependencies
 require 'yaml'
+require 'csv'
 require 'odf-report'
 require 'io/console'
 require 'combine_pdf'
