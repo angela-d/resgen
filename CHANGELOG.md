@@ -2,6 +2,7 @@
 
 | Changes | Release |
 | -- | -- |
+| New features! Reporting (weekly, monthly and yearly), Error checking for integral files and directories, Spreadsheet generator | 1.2.0 |
 | Major update; new dependencies &amp; functionality added for scraping* | 1.1.0 |
 | Public release | 1.0.0 |
 
