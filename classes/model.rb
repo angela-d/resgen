@@ -1,6 +1,8 @@
 class ResgenModel
 
-  def create
+  attr_accessor :config
+
+  def initialize
     @config = YAML.load_file('config.yml')
   end
 
@@ -34,6 +36,13 @@ class ResgenModel
     # generate a set of config values unique to this user
     resgenpath = Pathname.new((File.dirname(__FILE__))).split.first.to_s
 
+    # create a starter spreadsheet (only if it doesn't already exist)
+    if !File.exists? @config['appliedir'] + 'applied.csv'
+      CSV.open(@config['appliedir'] + 'applied.csv', 'wb') do |csv|
+        csv << ['DATE','EMPLOYER','POSITION','URL','INTERVIEW','REJECTION']
+      end
+    end
+
     open('config.yml', 'a') { |write|
       write << "\r# auto-generated values by resgen - delete everything below to reset your installation:\n"
       write << "resgenpath: #{resgenpath}/\n"
@@ -43,6 +52,27 @@ class ResgenModel
     }
   end
 
+  def test
+    # ensure paths to all needed files are set appropriately or have not been modified carelessly in the config
+    notice = nil
+    if !File.directory? @config['appliedir']
+      notice = 'appliedir: ' + @config['appliedir']
+    elsif !File.directory? @config['destination']
+      notice = 'destination: ' + @config['destination']
+    elsif !File.directory? @config['resgenpath']
+      notice = 'resgenpath: ' + @config['resgenpath']
+    elsif !File.exists? @config['coverpath']
+      notice = 'coverpath: ' + @config['coverpath']
+    elsif !File.exists? @config['resumepath']
+      notice = 'resumepath: ' + @config['resumepath']
+    elsif !File.exists? @config['appliedir'] + 'applied.csv'
+      notice = 'applied.csv is missing, it should be in the "appliedir": ' + "\n" + @config['appliedir'] + 'applied.csv'
+    end
+
+    if notice != nil
+      view.missing notice
+    end
+  end
 
   def sanitize text
     # remove special characters, spaces & force case, so we have consistency for comparison on future applications
@@ -163,5 +193,47 @@ private
   # pull in the view so we don't have to put verbiage in the model
   def view
     ResgenView.new
+  end
+end
+
+
+class ResgenReports < ResgenModel
+
+  def report limit
+
+    require 'date'
+    today            = Date.today # will utilize the last 7 days
+    month            = today.strftime("%Y-%m") # calendar month
+    year             = today.strftime("%Y") # calendar year
+    csvloc           = @config['appliedir'] + 'applied.csv'
+    total_columns    = $stdout.winsize[1] - 44
+    text_column_size = total_columns / 3
+    total            = 0
+
+    # display a banner above the report breakdown
+    view.heading limit.upcase
+
+    # parse the csv line by line; we don't necessrily want everything
+    CSV.foreach(csvloc, :headers => true).select do |job|
+      # parse the date so ruby can compare the threshold requested
+      date   = Date.parse job['DATE']
+      datem  = date.strftime("%Y-%m")
+      datey  = date.strftime("%Y")
+      output = date.strftime("%A, %B %-d, %Y") + "\t" +
+               "\e[#{20 + 24}G" + job['EMPLOYER'].slice(0, text_column_size) + "\t" +
+               "\e[#{text_column_size + 10}G" + job['POSITION'].slice(0, text_column_size)
+
+      if limit == 'week' && date >= today - 7
+        puts output
+        total += 1
+      elsif limit == 'month' && datem == month
+        puts output
+        total += 1
+      elsif limit == 'year' && datey == year
+        puts output
+        total += 1
+      end
+    end
+    puts "\t" + total.to_s + " TOTAL"
   end
 end
