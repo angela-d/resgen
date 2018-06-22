@@ -6,7 +6,14 @@ class ResgenView
   end
 
   def yellow text
-    print " \e[31m\e[1m >> #{text}\e[0m"
+    print " \e[33m\e[1m >> #{text}\e[0m"
+  end
+
+  def center text
+    columns         = $stdout.winsize[1]
+    text_length     = text.length
+    column_location = columns / 2 - text_length / 2
+    "\e[#{column_location}G#{text}"
   end
 
   def prompt_position
@@ -40,11 +47,25 @@ class ResgenView
     puts "LibreOffice is still running.  Please save your work & close it; press any key to continue."
   end
 
+  def heading text
+    puts center("\e[42m" + text + "LY REPORT\e[0m")
+  end
+
+  def arg_error
+    puts "Sorry, that argument was not recognized.  Did you mean \e[1m\e[3mruby resgen week\e[23m\e[22m?"
+  end
+
   def welcome
     puts "\n\e[35m\e[1mThanks for using Resgen!\e[22m\nIf you find the program useful, please share it!\n\n"
     puts "Since this was your first run, Resgen created config settings based on your operating system in config.yml, to save you some time."
     puts "\e[1mIn order for these to take effect, please restart Resgen.\e[22m\n\n"
     puts "Good luck in your search!\e[0m"
+  end
+
+  def missing this
+    puts yellow("WARNING!  A setting in config.yml is not correct.\n\tPlease review the issue below and fix: ")
+    puts this + "\n\n"
+    exit
   end
 
   def os_detection_failed
