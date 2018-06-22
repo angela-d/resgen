@@ -15,6 +15,9 @@ How it works:
 - Resgen also scrapes the job posting and saves a textual copy (and dates the  file), so you have a point of reference when you're called in for an interview
 - Generate [Reports](https://notabug.org/angela/resgen/wiki/Reports) for weekly, monthly or yearly job applying activity
 
+## Upgrading
+To upgrade from a [previous version](https://github.com/angela-d/resgen/blob/master/CHANGELOG.md) of Resgen, follow the [Upgrade wiki](https://notabug.org/angela/resgen/wiki/Upgrading)
+
 ## Compatible Operating Systems (64-bit)
 - Linux-based operating systems
 - Windows 10 [Install instructions](https://notabug.org/angela/resgen/wiki/Windows-Install)
