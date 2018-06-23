@@ -67,8 +67,8 @@ class ResgenController
       merge.add_field :company, "#{company}"
 
       # append new data to the existing spreadsheet
-      CSV.open(@config['appliedir'] + 'applied.csv', 'a') do |csv|
-        csv << [Time.now,"#{company}", "#{position}","#{url}"]
+      CSV.open(@config['appliedir'] + 'applied.csv', 'ab') do |csv|
+        csv << [Time.now,"#{company}", "#{position}","#{url}","",""]
       end
     end
 
