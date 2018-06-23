@@ -34,7 +34,7 @@ require 'csv'
 
     # create a starter spreadsheet (only if it doesn't already exist)
     if !File.exists? @config['appliedir'] + 'applied.csv'
-      CSV.open(@config['appliedir'] + 'applied.csv', 'wb') do |csv|
+      CSV.open(@config['appliedir'] + 'applied.csv', "wb") do |csv|
         csv << ['DATE','EMPLOYER','POSITION','URL','INTERVIEW','REJECTION']
       end
     end
@@ -50,7 +50,7 @@ require 'csv'
 	      .each { |employer|
 
           # set the known structure
-	        dir = @config['appliedir'] + '/' + employer + '/'
+	        dir  = @config['appliedir'] + employer + '/'
 
           # get the position by selecting the job postings scraped by resgen
 	        Dir.entries(dir)
@@ -58,16 +58,15 @@ require 'csv'
 	        .each { |position|
 
             # format the strings we'll be importing to the spreadsheet
-	          mtime = File.mtime(dir + position).to_s
+            date  = File.mtime(dir + position).to_s
 	          snip  = position.scan(/\d+|\D+/)
             title = snip[0].split('.html')
 
             employer = revsan employer
             position = revsan title[0]
-            date     = Date.parse(mtime).strftime("%A, %B %-d, %Y")
 
-            CSV.open(@config['appliedir'] + 'applied.csv', 'a') do |csv|
-              csv << ["#{date}","#{employer}", "#{position}",""]
+            CSV.open(@config['appliedir'] + 'applied.csv', 'ab') do |csv|
+              csv << ["#{date}","#{employer}", "#{position}","","",""]
             end
 	        }
 	      }
