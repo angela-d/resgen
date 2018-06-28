@@ -84,7 +84,7 @@ class ResgenModel
     ]
 
     result = rules.inject(text) do |clean, (before, after)|
-     clean.gsub(before, after)
+      clean.gsub(before, after)
     end
 
     return result
@@ -207,13 +207,14 @@ class ResgenReports < ResgenModel
     year             = today.strftime("%Y") # calendar year
     csvloc           = @config['appliedir'] + 'applied.csv'
     total_columns    = $stdout.winsize[1] - 44
-    text_column_size = total_columns / 3
+    text_column_size = total_columns / 4
     total            = 0
 
     # display a banner above the report breakdown
     view.heading limit.upcase
 
     # parse the csv line by line; we don't necessrily want everything
+    output = []
     CSV.foreach(csvloc, :headers => true).select do |job|
       # parse the date so ruby can compare the threshold requested
       date   = Date.parse job['DATE']
@@ -235,5 +236,53 @@ class ResgenReports < ResgenModel
       end
     end
     puts "\t" + total.to_s + " TOTAL"
+
+    # prompt to see if the user wants a copy of the report that was just generated
+    view.save_report
+    confirm = $stdin.getch
+    generate_report confirm, limit, output
+  end
+
+  def generate_report confirm, limit, content
+
+    if confirm == 'y'
+
+      total_columns    = $stdout.winsize[1] - 44
+      text_column_size = total_columns / 4
+
+      # remove spacing used for terminal columns
+      undo = [
+        ["\e[#{20 + 24}G", "\t"],
+        ["\e[#{text_column_size + 10}G","\t"]
+      ]
+
+      result = undo.inject(content) do |clean, (before, after)|
+        clean.gsub(before, after)
+      end
+
+      # first save? generate a config variable
+      if @config['reports'] == nil
+        open('config.yml', 'a') { |write|
+          write << "reports: #{@config['resgenpath']}\n"
+        }
+
+        path      = @config['resgenpath']
+        first_run = true
+      else
+        path = @config['reports']
+      end
+
+      date        = Date.today.strftime("-%-m-%-d-%y")
+      destination = path + limit + 'ly' + date + '.txt'
+      $file       = File.open(destination, 'w')
+      $file.write(result)
+      $file.sync  = true
+
+      view.report_saved destination
+
+      if first_run != nil
+        view.reports_first_save
+      end
+    end
   end
 end
