@@ -26,20 +26,20 @@ require 'csv'
 
   def now
 
-    puts "Welcome to Resgen Upgrade!\nThis script will merge your existing Resgen data with the new reports spreadsheet release in v1.1.0"
+    puts "Welcome to Resgen Upgrade!\nThis script will merge your existing Resgen data with the new reports spreadsheet release in v1.1.0\n"
     puts "Press any key to continue."
 
     $stdin.getch
-    puts "Creating a starter spreadsheet at " + @config['appliedir'] + 'applied.csv'
+    puts "Creating a starter spreadsheet..."
 
     # create a starter spreadsheet (only if it doesn't already exist)
     if !File.exists? @config['appliedir'] + 'applied.csv'
       CSV.open(@config['appliedir'] + 'applied.csv', "wb") do |csv|
         csv << ['DATE','EMPLOYER','POSITION','URL','INTERVIEW','REJECTION']
       end
-    end
 
-    puts "Done."
+      puts "\e[1;92mSince a spreadsheet didn't yet exist, one was added to " + @config['appliedir'] + "\e[0m\nYou can change this destination in config.yml"
+    end
 
     puts "Preparing your data for import..."
     require 'date'
@@ -70,7 +70,7 @@ require 'csv'
             end
 	        }
 	      }
-        puts "Done.\nYour upgrade is now complete.\nRun:\truby resgen week\nto see what you've applied to this week."
+        puts "Done.\n\nYour upgrade is now complete.\nRun:\truby resgen week\nto see what you've applied to this week."
   end
 end
 
