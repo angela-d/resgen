@@ -14,6 +14,7 @@ How it works:
 - Based on the information you give Resgen, a customized cover letter with the employer name and current date will be generated and merged with your regular resume, straight from .odt templates; no needing to have to create the PDFs by hand any time you want to update it - Resgen does it for you
 - Resgen also scrapes the job posting and saves a textual copy (and dates the  file), so you have a point of reference when you're called in for an interview
 - Generate [Reports](https://notabug.org/angela/resgen/wiki/Reports) for weekly, monthly or yearly job applying activity
+- [Frequently Asked Questions](https://notabug.org/angela/resgen/wiki/FAQ)
 
 ## Upgrading
 To upgrade from a [previous version](https://github.com/angela-d/resgen/blob/master/CHANGELOG.md) of Resgen, follow the [Upgrade wiki](https://notabug.org/angela/resgen/wiki/Upgrading)
