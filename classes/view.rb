@@ -51,6 +51,18 @@ class ResgenView
     puts center("\e[42m" + text + "LY REPORT\e[0m")
   end
 
+  def save_report
+    print "\e[1;96mWant to save a copy of this report?\e[0m\n\ty to save; any other key to cancel: "
+  end
+
+  def report_saved here
+    puts "\nA copy of your report was saved to: " + here
+  end
+
+  def reports_first_save
+    puts "If you wish to modify it's desintation for future reports, modify the \"reports:\" value in config.yml"
+  end
+
   def arg_error
     puts "Sorry, that argument was not recognized.  Did you mean \e[1m\e[3mruby resgen week\e[23m\e[22m?"
   end
