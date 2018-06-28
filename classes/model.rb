@@ -206,7 +206,7 @@ class ResgenReports < ResgenModel
     month            = today.strftime("%Y-%m") # calendar month
     year             = today.strftime("%Y") # calendar year
     csvloc           = @config['appliedir'] + 'applied.csv'
-    total_columns    = $stdout.winsize[1] - 44
+    total_columns    = $stdout.winsize[1] - 50
     text_column_size = total_columns / 4
     total            = 0
 
@@ -214,25 +214,29 @@ class ResgenReports < ResgenModel
     view.heading limit.upcase
 
     # parse the csv line by line; we don't necessrily want everything
-    output = []
+    reportgen = []
     CSV.foreach(csvloc, :headers => true).select do |job|
       # parse the date so ruby can compare the threshold requested
       date   = Date.parse job['DATE']
       datem  = date.strftime("%Y-%m")
       datey  = date.strftime("%Y")
       output = date.strftime("%A, %B %-d, %Y") + "\t" +
-               "\e[#{20 + 24}G" + job['EMPLOYER'].slice(0, text_column_size) + "\t" +
-               "\e[#{text_column_size + 10}G" + job['POSITION'].slice(0, text_column_size)
+               "\e[#{10 + 23}G" + job['EMPLOYER'].slice(0, text_column_size) + "\t" +
+               "\e[#{text_column_size + 20}G" + job['POSITION'].slice(0, text_column_size) + "\t" +
+               "\e[#{text_column_size + 65}G" + job['URL'].slice(0, text_column_size)
 
       if limit == 'week' && date >= today - 7
-        puts output
-        total += 1
+        puts output           # display the output to the terminal
+        total += 1            # sum the total of results
+        reportgen += [output] # loop the output for an array if we're saving the report
       elsif limit == 'month' && datem == month
         puts output
         total += 1
+        reportgen += [output]
       elsif limit == 'year' && datey == year
         puts output
         total += 1
+        reportgen += [output]
       end
     end
     puts "\t" + total.to_s + " TOTAL"
@@ -240,25 +244,15 @@ class ResgenReports < ResgenModel
     # prompt to see if the user wants a copy of the report that was just generated
     view.save_report
     confirm = $stdin.getch
-    generate_report confirm, limit, output
+    generate_report confirm, limit, reportgen
   end
 
   def generate_report confirm, limit, content
 
     if confirm == 'y'
 
-      total_columns    = $stdout.winsize[1] - 44
+      total_columns    = $stdout.winsize[1] - 50
       text_column_size = total_columns / 4
-
-      # remove spacing used for terminal columns
-      undo = [
-        ["\e[#{20 + 24}G", "\t"],
-        ["\e[#{text_column_size + 10}G","\t"]
-      ]
-
-      result = undo.inject(content) do |clean, (before, after)|
-        clean.gsub(before, after)
-      end
 
       # first save? generate a config variable
       if @config['reports'] == nil
@@ -272,11 +266,27 @@ class ResgenReports < ResgenModel
         path = @config['reports']
       end
 
+      # remove spacing used for terminal columns
+      undo = [
+        ["\e[#{10 + 23}G", "\t\t"],
+        ["\e[#{text_column_size + 20}G","\t\t"],
+        ["\e[#{text_column_size + 65}G","\t\t"]
+      ]
+
       date        = Date.today.strftime("-%-m-%-d-%y")
       destination = path + limit + 'ly' + date + '.txt'
-      $file       = File.open(destination, 'w')
-      $file.write(result)
-      $file.sync  = true
+
+
+      content.each_with_index do |job,index|
+
+        result = undo.inject(job) do |clean, (before, after)|
+          clean.gsub(before, after.to_s) # convert to a string in the event one of the fields may be blank, to avoid nil issues
+        end
+
+        open(destination, 'a') { |write|
+          write << "#{result}\n"
+        }
+      end
 
       view.report_saved destination
 
