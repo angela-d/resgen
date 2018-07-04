@@ -37,29 +37,29 @@ class ResgenController
     # close out any libreoffice processes
     @model.runproc('soffice')
 
+    # prompt the user with definitions from the view
+    @view.prompt_position
+    position = gets.chomp
+
+    @view.prompt_company
+    company = gets.chomp
+
+    # initialize the company directory name
+    scrape_dir   = @model.sanitize company
+    scrape_fn    = @model.sanitize position
+    employer_dir = @config['appliedir'] + scrape_dir + '/'
+
+    # make sure this is a new application
+    @model.checkdir employer_dir
+
+    @view.prompt_url
+    url = gets.chomp
+
+    # send wget to grab it, since the text is all that's really useful (and to save space)
+    @view.job_scrape(url)
+    @model.scrape(url, employer_dir + scrape_fn + @time.strftime("-%-m-%-d-%y") +'.html')
+    
     resgen = ODFReport::Report.new(@config['coverpath']) do |merge|
-
-      # prompt the user with definitions from the view
-      @view.prompt_position
-      position = gets.chomp
-
-      @view.prompt_company
-      company = gets.chomp
-
-      # initialize the company directory name
-      scrape_dir   = @model.sanitize company
-      scrape_fn    = @model.sanitize position
-      employer_dir = @config['appliedir'] + scrape_dir + '/'
-
-      # make sure this is a new application
-      @model.checkdir employer_dir
-
-      @view.prompt_url
-      url = gets.chomp
-
-      # send wget to grab it, since the text is all that's really useful (and to save space)
-      @view.job_scrape(url)
-      @model.scrape(url, employer_dir + scrape_fn + @time.strftime("-%-m-%-d-%y") +'.html')
 
       # pass it to the writer doc - if you want to further customize your cover sheet, follow suit with the variables below
       merge.add_field :date, @time.strftime("%A, %B %-d, %Y")
@@ -86,7 +86,7 @@ class ResgenController
 
       # merge time
       respath = File.basename(@config['resumepath'], File.extname(@config['resumepath']))
-      @model.mergepdf('output.pdf', respath + ".pdf", @config['destination'], @config['outputfilename'])
+      @model.mergepdf('output.pdf', respath + ".pdf", @config['destination'], @config['outputfilename'], employer_dir)
 
       # display success notice
       @view.completion
