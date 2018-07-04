@@ -33,7 +33,7 @@ class ResgenView
   end
 
   def job_scrape url
-    puts " >> Obtaining a copy of the job posting for you, one moment.. it may take a few seconds, depending on the speed of your internet and proximity to the remote host."
+    puts " >> Obtaining a copy of the job posting for you, one moment..\nIt may take a few seconds, depending on the speed of your internet and proximity to the remote host."
     if url.include? "linkedin"
       puts yellow("Linkedin are notorious turds about automated visits, you might want to double check your applied directory to ensure the posting was scraped properly.")
     end
