@@ -181,12 +181,15 @@ class ResgenModel
   end
 
 
-  def mergepdf cover, resume, dest, fn
+  def mergepdf cover, resume, dest, fn, resume_copy
     # merge the cover letter and resume automagically
     pdf = CombinePDF.new
     pdf << CombinePDF.load(cover)
     pdf << CombinePDF.load(resume)
+    # save to primary destination (ie. desktop); pulled from config
     pdf.save dest + fn
+    # save a copy to the employer directory
+    pdf.save resume_copy + fn
   end
 
 private
@@ -217,25 +220,26 @@ class ResgenReports < ResgenModel
     reportgen = []
     CSV.foreach(csvloc, :headers => true).select do |job|
       # parse the date so ruby can compare the threshold requested
-      date   = Date.parse job['DATE']
-      datem  = date.strftime("%Y-%m")
-      datey  = date.strftime("%Y")
-      output = date.strftime("%A, %B %-d, %Y") + "\t" +
-               "\e[#{10 + 23}G" + job['EMPLOYER'].slice(0, text_column_size) + "\t" +
-               "\e[#{text_column_size + 20}G" + job['POSITION'].slice(0, text_column_size) + "\t" +
-               "\e[#{text_column_size + 65}G" + job['URL'].slice(0, text_column_size)
+      date             = Date.parse job['DATE']
+      datem            = date.strftime("%Y-%m")
+      datey            = date.strftime("%Y")
+      formatted_output = date.strftime("%A, %B %-d, %Y") + "\t" +
+                          "\e[#{10 + 23}G" + job['EMPLOYER'].slice(0, text_column_size) + "\t" +
+                          "\e[#{text_column_size + 20}G" + job['POSITION'].slice(0, text_column_size) + "\t" +
+                          "\e[#{text_column_size + 65}G" + job['URL'].slice(0, text_column_size)
+        output         = date.strftime("%A, %B %-d, %Y") + "\t\t" + job['EMPLOYER'] + "\t\t" + job['POSITION'] + "\t\t" + job['URL']
 
       if limit == 'week' && date >= today - 7
-        puts output           # display the output to the terminal
-        total += 1            # sum the total of results
-        reportgen += [output] # loop the output for an array if we're saving the report
+        puts formatted_output   # display the output to the terminal
+        total     += 1          # sum the total of results
+        reportgen += [output]   # loop the output for an array if we're saving the report
       elsif limit == 'month' && datem == month
-        puts output
-        total += 1
+        puts formatted_output
+        total     += 1
         reportgen += [output]
       elsif limit == 'year' && datey == year
-        puts output
-        total += 1
+        puts formatted_output
+        total     += 1
         reportgen += [output]
       end
     end
@@ -251,9 +255,6 @@ class ResgenReports < ResgenModel
 
     if confirm == 'y'
 
-      total_columns    = $stdout.winsize[1] - 50
-      text_column_size = total_columns / 4
-
       # first save? generate a config variable
       if @config['reports'] == nil
         open('config.yml', 'a') { |write|
@@ -266,25 +267,12 @@ class ResgenReports < ResgenModel
         path = @config['reports']
       end
 
-      # remove spacing used for terminal columns
-      undo = [
-        ["\e[#{10 + 23}G", "\t\t"],
-        ["\e[#{text_column_size + 20}G","\t\t"],
-        ["\e[#{text_column_size + 65}G","\t\t"]
-      ]
-
       date        = Date.today.strftime("-%-m-%-d-%y")
       destination = path + limit + 'ly' + date + '.txt'
 
-
       content.each_with_index do |job,index|
-
-        result = undo.inject(job) do |clean, (before, after)|
-          clean.gsub(before, after.to_s) # convert to a string in the event one of the fields may be blank, to avoid nil issues
-        end
-
         open(destination, 'a') { |write|
-          write << "#{result}\n"
+          write << "#{job}\n"
         }
       end
 
