@@ -55,13 +55,13 @@ class ResgenController
     @view.prompt_url
     url = gets.chomp
 
-    # send wget to grab it, since the text is all that's really useful (and to save space)
+    # send the scraper to grab a copy of the posting
     @view.job_scrape(url)
     @model.scrape(url, employer_dir + scrape_fn + @time.strftime("-%-m-%-d-%y") +'.html')
-    
+
     resgen = ODFReport::Report.new(@config['coverpath']) do |merge|
 
-      # pass it to the writer doc - if you want to further customize your cover sheet, follow suit with the variables below
+      # pass it to the writer doc - if you want to further customize your cover sheet: https://notabug.org/angela/resgen/wiki/Custom-Fields
       merge.add_field :date, @time.strftime("%A, %B %-d, %Y")
       merge.add_field :position, "#{position}"
       merge.add_field :company, "#{company}"
