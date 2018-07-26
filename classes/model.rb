@@ -104,7 +104,7 @@ class ResgenModel
     else
       # create the directory
   		if @config['os'] == 'windows'
-  			# windows doesn't interpret a relative path as a merge request, so special treatment is required..
+        # windows doesn't interpret a relative path as a merge request, so special treatment is required..
         destdir   = dir.partition('/').first
         createdir = dir.partition('/').last
 
@@ -162,16 +162,16 @@ class ResgenModel
       end
 
       # user is being a turd & disobeyed advice; forcefully terminate libreoffice
-  		if @config['os'] == 'windows' && final > 0
-  			# use window's taskkill to terminate, otherwise process exit is bugged out on ruby
-  			%x(taskkill /pid "#{pid}" /f)
-  		elsif final > 0
-  		  begin
-  			# an active libreoffice session prevents the pdfs from being generated
-  			  Process.kill('QUIT', final)
-  		  rescue Errno::ESRCH
-  		  end
-  		end
+      if @config['os'] == 'windows' && final > 0
+        # use window's taskkill to terminate, otherwise process exit is bugged out on ruby
+        %x(taskkill /pid "#{pid}" /f)
+      elsif final > 0
+        begin
+          # an active libreoffice session prevents the pdfs from being generated
+          Process.kill('QUIT', final)
+          rescue Errno::ESRCH
+        end
+      end
     end
   end
 
