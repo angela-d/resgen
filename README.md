@@ -37,7 +37,7 @@ git clone https://notabug.org/angela/resgen.git && cd resgen
 - Ruby >= 2.4.x
 - Ruby gems
 - Libre Office 3.5+
-- Firefox 56+ (Waterfox is currently *not* compatible)
+- Firefox 56+ (Waterfox and versions of Firefox ESR prior to v60 are *not* compatible)
 
 You can run `bundle install` in Resgen's directory to automatically install the needed gems.  If you wish to do it manually:
 
