@@ -74,10 +74,18 @@ class ResgenView
     puts "Good luck in your search!\e[0m"
   end
 
+  def name_choice
+    puts "What's your name?  Resgen will use it to make an appropriate filename for your resume:"
+  end
+
   def missing this
     puts yellow("WARNING!  A setting in config.yml is not correct.\n\tPlease review the issue below and fix: ")
     puts this + "\n\n"
     exit
+  end
+
+  def dependencies
+    puts yellow("Installing Resgen's Ruby Gem dependencies...")
   end
 
   def os_detection_failed
