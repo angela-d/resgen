@@ -29,7 +29,7 @@ To upgrade from a [previous version](https://github.com/angela-d/resgen/blob/mas
 ## Quick install
 If you need OS-specific instructions, see the compatible operating systems above for links to detailed steps.
 ```bash
-git clone https://notabug.org/angela/resgen.git && cd resgen
+git clone https://notabug.org/angela/resgen.git && cd resgen && ruby resgen
 ```
 
 ## Dependencies
@@ -37,19 +37,12 @@ git clone https://notabug.org/angela/resgen.git && cd resgen
 - Ruby >= 2.4.x
 - Ruby gems
 - Libre Office 3.5+
-- Firefox 56+ (Waterfox and versions of Firefox ESR prior to v60 are *not* compatible)
+- Firefox ESR 60+ or Firefox 62+ (Waterfox and prior versions of Firefox are *not* compatible)
 
-You can run `bundle install` in Resgen's directory to automatically install the needed gems.  If you wish to do it manually:
-
-```ruby
-gem install odf-report
-gem install combine_pdf
-gem install selenium-webdriver
-gem install os
-```
+As of Resgen v1.3.0, Ruby Gem dependencies are automatically installed during the initial launch of the application.
 
 ***
-### [Why is Firefox 56+ required?](https://notabug.org/angela/resgen/wiki/Why-Firefox)
+### [Why is Firefox required?](https://notabug.org/angela/resgen/wiki/Why-Firefox)
 
 ***
 
