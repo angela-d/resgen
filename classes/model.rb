@@ -15,22 +15,41 @@ class ResgenModel
     # initialize variables we'll be sending to config.yml
     if OS.linux?
       # yeah, linux isn't an os, but this way we cover all the thousands of distributions without unnecessary overhead
-      os          = 'linux'
-      driver      = 'linux64'
-      libreoffice = 'lowriter'
+      os             = 'linux'
+      driver         = 'linux64'
+      libreoffice    = 'lowriter'
+      install_prefix = ''
     elsif OS.mac?
-      os          = 'mac'
-      driver      = 'macos'
-      obtain_path = %x(mdfind "kMDItemFSName = LibreOffice.app")
-      exe_path    = obtain_path.split('\n').first.chomp
-      libreoffice = File.join(exe_path, '/Contents/MacOS/soffice')
+      os             = 'mac'
+      driver         = 'macos'
+      obtain_path    = %x(mdfind "kMDItemFSName = LibreOffice.app")
+      exe_path       = obtain_path.split('\n').first.chomp
+      libreoffice    = File.join(exe_path, '/Contents/MacOS/soffice')
+      install_prefix = 'sudo '
     elsif OS.windows?
-      os          = 'windows'
-      driver      = 'win64'
-      libreoffice = "C:\\Program Files\\LibreOffice\\program\\soffice.exe"
+      os             = 'windows'
+      driver         = 'win64'
+      libreoffice    = "C:\\Program Files\\LibreOffice\\program\\soffice.exe"
+      install_prefix = ''
     else
       view.os_detection_failed
       exit
+    end
+    # make sure the dependencies are installed
+    view.dependencies
+    system "gem install bundler"
+    system "#{install_prefix}bundle install"
+    print "\n"
+
+    # create the empty directories we'll need, since git doesn't handle them
+    %x(mkdir "applied" && mkdir "finished_resume")
+    # now that dependencies are installed, we can append their inclusion globally
+    # easiest to simply exclude these from startup until they are needed & installed
+    File.open('resgen', 'r+') do |dependency|
+      line    = dependency.each_line.to_a
+      line[4] = "require 'odf-report'\nrequire 'combine_pdf'\nrequire 'selenium-webdriver'\n\n"
+      dependency.rewind
+      dependency.write(line.join)
     end
 
     # generate a set of config values unique to this user
@@ -43,12 +62,25 @@ class ResgenModel
       end
     end
 
+    # prompt the user for their name, this is used for the filename of the generated resume
+    view.name_choice
+    username = gets.chomp.downcase.gsub(/[^a-z ]/, "").gsub(/\s/,'-') + "-resume.pdf"
+
     open('config.yml', 'a') { |write|
       write << "\r# auto-generated values by resgen - delete everything below to reset your installation:\n"
+      write << "outputfilename: #{username} # where your prepared resumes are saved; attach it to the job posting application\n"
       write << "resgenpath: #{resgenpath}/\n"
       write << "os: #{os}\n"
       write << "driver: #{driver}\n"
       write << "libreoffice: #{libreoffice}\n"
+    }
+
+    # append unique files to .gitignore, so users can run a git pull for future upgrades, without git conflicts with personal data & configs
+    # these are not in the native .gitignore, else the referenced files would not be taken in the initial git clone
+    open('.gitignore', 'a') { |write|
+      write << "\rconfig.yml\n"
+      write << "*.odt\n"
+      write << "*.pdf\n"
     }
   end
 
