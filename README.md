@@ -34,12 +34,16 @@ git clone https://notabug.org/angela/resgen.git && cd resgen && ruby resgen
 
 ## Dependencies
 
-- Ruby >= 2.4.x
+- Ruby 2.4.x - 2.5.x (2.7 is incompatible*)
 - Ruby gems
 - Libre Office 3.5+
 - Firefox ESR 60+ or Firefox 62+ (Waterfox and prior versions of Firefox are *not* compatible)
 
-As of Resgen v1.3.0, Ruby Gem dependencies are automatically installed during the initial launch of the application.
+`*`the Selenium webdriver has depreciations that will be upgraded in a future release of Resgen
+
+As of Resgen v1.3.0, Ruby Gem dependencies are automatically installed during the initial launch of the application.**
+
+`**`If dependencies do not install for you, see [this thread](https://notabug.org/angela/resgen/issues/2).
 
 ***
 ### [Why is Firefox required?](https://notabug.org/angela/resgen/wiki/Why-Firefox)
