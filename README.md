@@ -14,39 +14,35 @@ How it works:
 - Based on the information you give Resgen, a customized cover letter with the employer name and current date will be generated and merged with your regular resume, straight from .odt templates; no needing to have to create the PDFs by hand any time you want to update it - Resgen does it for you
 - Resgen also scrapes the job posting and saves a textual copy (and dates the  file), so you have a point of reference when you're called in for an interview
 - Saves a copy of your resume to your preferred destination (for easy upload); also saves a copy alongside the job posting scrape for easy reference when reviewing that particular job's application details
-- Generate [Reports](https://notabug.org/angela/resgen/wiki/Reports) for weekly, monthly or yearly job applying activity
-- [Frequently Asked Questions](https://notabug.org/angela/resgen/wiki/FAQ)
+- Generate [Reports](wiki/Reports) for weekly, monthly or yearly job applying activity
+- [Frequently Asked Questions](wiki/FAQ)
 
 ## Upgrading
-To upgrade from a [previous version](https://github.com/angela-d/resgen/blob/master/CHANGELOG.md) of Resgen, follow the [Upgrade wiki](https://notabug.org/angela/resgen/wiki/Upgrading)
+To upgrade from a [previous version](CHANGELOG.md) of Resgen, follow the [Upgrade wiki](wiki/Upgrading)
 
 ## Compatible Operating Systems (64-bit)
 - Linux-based operating systems
-- Windows 10 [Install instructions](https://notabug.org/angela/resgen/wiki/Windows-Install)
-- MacOS Sierra or higher [Install instructions](https://notabug.org/angela/resgen/wiki/Mac-Install)
+- Windows 10 [Install instructions](wiki/Windows-Install)
+- MacOS Mojave or higher [Install instructions](wiki/Mac-Install)
 
-*(It would work on 32-bit too, I just didn't include the needed drivers to support it, if you are using 32-bit, [let me know](https://notabug.org/angela/resgen/issues) and support will be added.  If you're unsure whether or not your OS is 64/32-bit, it is probably 64-bit.)*
+*(It would work on 32-bit too, I just didn't include the needed drivers to support it, if you are using 32-bit, [let me know](issues) and support will be added.  If you're unsure whether or not your OS is 64/32-bit, it is probably 64-bit.)*
 ## Quick install
 If you need OS-specific instructions, see the compatible operating systems above for links to detailed steps.
 ```bash
-git clone https://notabug.org/angela/resgen.git && cd resgen && ruby resgen
+git clone https://github.com/angela-d/resgen.git && cd resgen && ruby resgen
 ```
 
 ## Dependencies
+Companion applications you need installed in order for Resgen to work.
+- Ruby v2.4.x - v2.6.5 (2.7 is incompatible*)
+- Ruby gems (typically installed with Ruby, by default)
+- Libre Office 6.1.5+
+- Firefox/Firefox ESR 78+
 
-- Ruby 2.4.x - 2.5.x (2.7 is incompatible*)
-- Ruby gems
-- Libre Office 3.5+
-- Firefox ESR 60+ or Firefox 62+ (Waterfox and prior versions of Firefox are *not* compatible)
-
-`*`the Selenium webdriver has depreciations that will be upgraded in a future release of Resgen
-
-As of Resgen v1.3.0, Ruby Gem dependencies are automatically installed during the initial launch of the application.**
-
-`**`If dependencies do not install for you, see [this thread](https://notabug.org/angela/resgen/issues/2).
+`*`the Selenium webdriver for Firefox has depreciations that will have to be upgraded in order for Resgen to be compatible with Ruby v2.7; this is not a bug in Resgen's code.
 
 ***
-### [Why is Firefox required?](https://notabug.org/angela/resgen/wiki/Why-Firefox)
+### [Why is Firefox required?](wiki/Why-Firefox)
 
 ***
 
@@ -58,10 +54,10 @@ The [template.odt](templates/template.odt) file has examples of the variables yo
 For detailed instructions on adding additional fields, see the [Custom Fields](https://notabug.org/angela/resgen/wiki/Custom-Fields) wiki
 
 ## Bugs or Issues
-Check the [Install Help](https://notabug.org/angela/resgen/wiki/install-help) wiki or post an issue on the [bug tracker](https://notabug.org/angela/resgen/issues)
+Check the [Install Help](wiki/install-help) wiki or post an issue on the [bug tracker](issues)
 
 ## License
 GPLv2 only
 
 ## Find this useful?
-Please [leave feedback](https://notabug.org/angela/resgen/issues) or star the repo on Github / Notabug.org
+Please [leave feedback](issues) or star the repo on Github / Notabug.org
