@@ -14,18 +14,18 @@ How it works:
 - Based on the information you give Resgen, a customized cover letter with the employer name and current date will be generated and merged with your regular resume, straight from .odt templates; no needing to have to create the PDFs by hand any time you want to update it - Resgen does it for you
 - Resgen also scrapes the job posting and saves a textual copy (and dates the  file), so you have a point of reference when you're called in for an interview
 - Saves a copy of your resume to your preferred destination (for easy upload); also saves a copy alongside the job posting scrape for easy reference when reviewing that particular job's application details
-- Generate [Reports](wiki/Reports) for weekly, monthly or yearly job applying activity
+- Generate [Reports](./wiki/Reports) for weekly, monthly or yearly job applying activity
 - [Frequently Asked Questions](wiki/FAQ)
 
 ## Upgrading
-To upgrade from a [previous version](CHANGELOG.md) of Resgen, follow the [Upgrade wiki](wiki/Upgrading)
+To upgrade from a [previous version](./CHANGELOG.md) of Resgen, follow the [Upgrade wiki](./wiki/Upgrading)
 
 ## Compatible Operating Systems (64-bit)
 - Linux-based operating systems
-- Windows 10 [Install instructions](wiki/Windows-Install)
-- MacOS Mojave or higher [Install instructions](wiki/Mac-Install)
+- Windows 10 [Install instructions](./wiki/Windows-Install)
+- MacOS Mojave or higher [Install instructions](./wiki/Mac-Install)
 
-*(It would work on 32-bit too, I just didn't include the needed drivers to support it, if you are using 32-bit, [let me know](issues) and support will be added.  If you're unsure whether or not your OS is 64/32-bit, it is probably 64-bit.)*
+*(It would work on 32-bit too, I just didn't include the needed drivers to support it, if you are using 32-bit, [let me know](./issues) and support will be added.  If you're unsure whether or not your OS is 64/32-bit, it is probably 64-bit.)*
 ## Quick install
 If you need OS-specific instructions, see the compatible operating systems above for links to detailed steps.
 ```bash
@@ -42,22 +42,22 @@ Companion applications you need installed in order for Resgen to work.
 `*`the Selenium webdriver for Firefox has depreciations that will have to be upgraded in order for Resgen to be compatible with Ruby v2.7; this is not a bug in Resgen's code.
 
 ***
-### [Why is Firefox required?](wiki/Why-Firefox)
+### [Why is Firefox required?](./wiki/Why-Firefox)
 
 ***
 
 ## Customizing
-The configuration for the application can be found at [config.yml](config.yml); modify the paths according to your environment.
+The configuration for the application can be found at [config.yml](./config.yml); modify the paths according to your environment.
 
 The [template.odt](templates/template.odt) file has examples of the variables you'll need to add to your own cover letter in order for Resgen to automate for you.  If you wish to add more fields, do so by modifying the `resgen` loop in [controller.rb](classes/controller.rb) and featuring the subsequent `[NEW_VARS]` in your cover letter template.
 
-For detailed instructions on adding additional fields, see the [Custom Fields](https://notabug.org/angela/resgen/wiki/Custom-Fields) wiki
+For detailed instructions on adding additional fields, see the [Custom Fields](./wiki/Custom-Fields) wiki
 
 ## Bugs or Issues
-Check the [Install Help](wiki/install-help) wiki or post an issue on the [bug tracker](issues)
+Check the [Install Help](./wiki/install-help) wiki or post an issue on the [bug tracker](./issues)
 
 ## License
 GPLv2 only
 
 ## Find this useful?
-Please [leave feedback](issues) or star the repo on Github / Notabug.org
+Please [leave feedback](./issues) or star the repo on Github / Notabug.org
