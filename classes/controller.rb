@@ -21,6 +21,9 @@ class ResgenController
     # make sure everything is pathed appropriately
     @model.test
 
+    require 'odf-report'
+    require 'combine_pdf'
+    
     # if arguments are passed, the user might be requesting reports
     if !ARGV.empty? && ARGV[0] == 'week' || ARGV[0] == 'month' || ARGV[0] == 'year'
 

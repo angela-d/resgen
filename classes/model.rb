@@ -9,6 +9,11 @@ class ResgenModel
 
   def firstrun
 
+    system "gem install bundler"
+    system "gem install os"
+
+    # give os a few secs to install, else it'll try to run before it finishes
+    sleep(7)
     require 'os'
     require 'pathname'
 
@@ -37,7 +42,6 @@ class ResgenModel
     end
     # make sure the dependencies are installed
     view.dependencies
-    system "gem install bundler"
     system "#{install_prefix}bundle install"
     print "\n"
 
@@ -149,6 +153,8 @@ class ResgenModel
 
 
   def scrape url, fn
+
+    require 'selenium-webdriver'
 
     # add our gecko driver to the env path
     ENV['PATH'] = "#{ENV['PATH']}#{File::PATH_SEPARATOR}#{@config['resgenpath'] + 'drivers/'+ @config['driver']}"
