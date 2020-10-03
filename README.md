@@ -30,6 +30,17 @@ To upgrade from a [previous version](CHANGELOG.md) of Resgen, follow the [Upgrad
 *(It would work on 32-bit too, I just didn't include the needed drivers to support it, if you are using 32-bit, [let me know](../../issues) and support will be added.  If you're unsure whether or not your OS is 64/32-bit, it is probably 64-bit.)*
 
 ## Quick install
+**Linux/Mac users:** Using [RVM](https://rvm.io/) is *highly* recommended; it allows you to install Ruby in a virtual sense and doesn't rely upon or mess with the Ruby already bundled with your operating system. (no root/sudo required for gem installs, too!)
+- Just be sure to use the compatible Ruby version (see Dependencies section):
+```bash
+curl -sSL https://get.rvm.io | bash -s stable
+```
+See what verion of Ruby you're running:
+```bash
+rvm current
+```
+If you're between v2.4 and v2.6.5, you're ready for Resgen!
+
 If you need OS-specific instructions, see the compatible operating systems above for links to detailed steps.
 ```bash
 git clone https://github.com/angela-d/resgen.git && cd resgen && ruby resgen
