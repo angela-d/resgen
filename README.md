@@ -20,7 +20,7 @@ How it works:
 - [Frequently Asked Questions](../../wiki/FAQ)
 
 ## Upgrading
-To upgrade from a [previous version](CHANGELOG.md) of Resgen, follow the [Upgrade wiki](./wiki/Upgrading)
+To upgrade from a [previous version](CHANGELOG.md) of Resgen, follow the [Upgrade wiki](../../wiki/Upgrading)
 
 ## Compatible Operating Systems (64-bit)
 - Linux-based operating systems
