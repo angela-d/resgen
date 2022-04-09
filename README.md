@@ -9,6 +9,8 @@ The only thing Resgen doesn't do for you is actually send the resume (but with s
 ![Resgen in action](resgen.gif)
 
 ### Zero technical skill required for use
+Aside from knowing how to run a command line application, of course.
+
 How it works:
 
 - Initialize Resgen by navigating to it's directory in your terminal and running `ruby resgen`
@@ -25,7 +27,7 @@ To upgrade from a [previous version](CHANGELOG.md) of Resgen, follow the [Upgrad
 ## Compatible Operating Systems (64-bit)
 - Linux-based operating systems
 - Windows 10 [Install instructions](../../wiki/Windows-Install)
-- MacOS Mojave [Install instructions](../../wiki/Mac-Install) ([see Catalina issue](https://github.com/mozilla/geckodriver/releases/tag/v0.27.0))
+- MacOS Mojave+ [Install instructions](../../wiki/Mac-Install) ([see Catalina issue](https://github.com/mozilla/geckodriver/releases/tag/v0.27.0))
 
 *(It would work on 32-bit too, I just didn't include the needed drivers to support it, if you are using 32-bit, [let me know](../../issues) and support will be added.  If you're unsure whether or not your OS is 64/32-bit, it is probably 64-bit.)*
 
@@ -39,7 +41,7 @@ See what verion of Ruby you're running:
 ```bash
 rvm current
 ```
-If you're between v2.4 and v2.6.5, you're ready for Resgen!
+If you're at least v2.7, you're ready for Resgen!
 
 If you need OS-specific instructions, see the compatible operating systems above for links to detailed steps.
 ```bash
@@ -49,12 +51,10 @@ git clone https://github.com/angela-d/resgen.git && cd resgen && ruby resgen
 ## Dependencies
 Companion applications you need installed in order for Resgen to work.
 
-- Ruby v2.4.x - v2.6.5 (2.7 is incompatible*)
+- Ruby v2.7.x
 - Ruby gems (typically installed with Ruby, by default)
-- Libre Office 6.1.5+
-- Firefox/Firefox ESR 78+
-
-`*`the Selenium webdriver for Firefox has depreciations that will have to be upgraded in order for Resgen to be compatible with Ruby v2.7; this is not a bug in Resgen's code.
+- Libre Office 7.0.42+
+- Firefox/Firefox ESR 91.8+
 
 ***
 
@@ -75,6 +75,3 @@ Check the [Install Help](../../wiki/install-help) wiki or post an issue on the [
 
 ## License
 GPLv2 only
-
-## Find this useful?
-Please [leave feedback](../../issues) or star the repo on Github / Notabug.org
