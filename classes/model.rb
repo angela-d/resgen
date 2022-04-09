@@ -160,7 +160,7 @@ class ResgenModel
     ENV['PATH'] = "#{ENV['PATH']}#{File::PATH_SEPARATOR}#{@config['resgenpath'] + 'drivers/'+ @config['driver']}"
 
     headless = Selenium::WebDriver::Firefox::Options.new(args: ['--headless'])
-    driver   = Selenium::WebDriver.for(:firefox, options: headless)
+    driver   = Selenium::WebDriver.for(:firefox, capabilities: headless)
 
     driver.manage.timeouts.implicit_wait = 5
     driver.get("#{url}")
